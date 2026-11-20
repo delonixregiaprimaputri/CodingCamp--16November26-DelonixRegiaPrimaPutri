@@ -1,0 +1,623 @@
+/* ═══════════════════════════════════════════════
+   LIFE DASHBOARD — style.css
+   ═══════════════════════════════════════════════ */
+
+/* ── 1. CSS Custom Properties ── */
+:root {
+  /* Light palette */
+  --bg:          #f0f2f5;
+  --surface:     #ffffff;
+  --surface2:    #f7f8fa;
+  --border:      #e2e5ea;
+  --text:        #1a1d23;
+  --text-muted:  #6b7280;
+  --primary:     #6366f1;
+  --primary-h:   #4f46e5;
+  --primary-soft:#ede9fe;
+  --danger:      #ef4444;
+  --danger-soft: #fee2e2;
+  --success:     #22c55e;
+  --warning:     #f59e0b;
+  --shadow:      0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,.12);
+  --radius:      16px;
+  --radius-sm:   8px;
+  --transition:  .2s ease;
+  --ring-color:  #6366f1;
+}
+
+body.dark {
+  --bg:          #0f1117;
+  --surface:     #1a1d27;
+  --surface2:    #22263a;
+  --border:      #2e3347;
+  --text:        #e8eaf0;
+  --text-muted:  #8b92a8;
+  --primary:     #818cf8;
+  --primary-h:   #6366f1;
+  --primary-soft:#2a2d4a;
+  --danger:      #f87171;
+  --danger-soft: #3b1a1a;
+  --success:     #4ade80;
+  --warning:     #fbbf24;
+  --shadow:      0 2px 16px rgba(0,0,0,.35);
+  --shadow-lg:   0 8px 40px rgba(0,0,0,.5);
+  --ring-color:  #818cf8;
+}
+
+/* ── 2. Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+ul { list-style: none; }
+button { cursor: pointer; font-family: inherit; }
+input, select { font-family: inherit; }
+
+/* ── 3. Top Bar ── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.app-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: var(--primary);
+}
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 1.1rem;
+  color: var(--text);
+  transition: background var(--transition), transform var(--transition);
+}
+.icon-btn:hover { background: var(--surface2); transform: scale(1.1); }
+
+/* ── 4. Dashboard Grid ── */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── 5. Card Base ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: background var(--transition), border-color var(--transition),
+              box-shadow var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-lg); }
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+/* ── 6. Greeting Card ── */
+.greeting-card {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
+  border: none;
+  color: #fff;
+}
+
+.greeting-msg {
+  font-size: .95rem;
+  opacity: .85;
+  font-weight: 500;
+}
+.greeting-name {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.datetime-block { text-align: right; }
+.clock {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.date {
+  font-size: .9rem;
+  opacity: .85;
+  margin-top: 2px;
+}
+
+.name-edit-row {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.name-edit-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: rgba(255,255,255,.25);
+  color: #fff;
+  font-size: .9rem;
+  outline: none;
+  transition: background var(--transition);
+}
+.name-edit-row input::placeholder { color: rgba(255,255,255,.65); }
+.name-edit-row input:focus { background: rgba(255,255,255,.35); }
+
+/* ── 7. Buttons ── */
+.btn {
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .875rem;
+  font-weight: 600;
+  transition: background var(--transition), transform var(--transition),
+              box-shadow var(--transition);
+}
+.btn:hover { background: var(--border); }
+.btn:active { transform: scale(.97); }
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+.btn-primary:hover { background: var(--primary-h); }
+
+.btn-sm { padding: 6px 14px; font-size: .82rem; }
+
+.btn-danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: transparent;
+}
+.btn-danger:hover { filter: brightness(.92); }
+
+/* ── 8. Pomodoro Card ── */
+.timer-card { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.timer-card .card-title { align-self: flex-start; margin-bottom: 0; }
+
+.timer-settings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  font-size: .85rem;
+  color: var(--text-muted);
+  align-self: stretch;
+}
+.timer-settings label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.timer-settings input[type="number"] {
+  width: 52px;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .85rem;
+  text-align: center;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.timer-settings input[type="number"]:focus { border-color: var(--primary); }
+
+.timer-mode-tabs {
+  display: flex;
+  gap: 8px;
+  align-self: stretch;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: .85rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+.tab-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* SVG ring */
+.timer-display-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.timer-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+.ring-progress {
+  fill: none;
+  stroke: var(--ring-color);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset .9s linear, stroke .3s;
+}
+
+.timer-display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.timer-status {
+  font-size: .85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.timer-controls { display: flex; gap: 10px; }
+
+.session-counter { font-size: .82rem; color: var(--text-muted); }
+
+/* ── 9. To-Do Card ── */
+.todo-card { display: flex; flex-direction: column; gap: 12px; }
+
+.todo-add-row {
+  display: flex;
+  gap: 8px;
+}
+.todo-add-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .9rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.todo-add-row input:focus { border-color: var(--primary); }
+
+.todo-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: .82rem;
+}
+.filter-label, .sort-label {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.filter-btn {
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+.filter-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+.filter-btn:hover:not(.active) { background: var(--border); }
+
+.sort-select {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .8rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Task list */
+.task-list { display: flex; flex-direction: column; gap: 6px; min-height: 40px; }
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  animation: slideIn .2s ease;
+  transition: background var(--transition), opacity var(--transition);
+}
+.task-item:hover { background: var(--border); }
+.task-item.done { opacity: .55; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* custom checkbox */
+.task-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all var(--transition);
+}
+.task-check:checked {
+  background: var(--success);
+  border-color: var(--success);
+}
+.task-check:checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.task-text {
+  flex: 1;
+  font-size: .9rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.task-item.done .task-text { text-decoration: line-through; }
+
+.task-actions { display: flex; gap: 4px; opacity: 0; transition: opacity var(--transition); }
+.task-item:hover .task-actions { opacity: 1; }
+
+.task-btn {
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  border-radius: 6px;
+  font-size: .85rem;
+  transition: background var(--transition);
+}
+.task-btn:hover { background: var(--border); }
+.task-btn.del:hover { background: var(--danger-soft); }
+
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+.task-counter { font-size: .82rem; color: var(--text-muted); }
+
+/* ── 10. Quick Links Card ── */
+.links-card { display: flex; flex-direction: column; gap: 14px; }
+
+.link-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.link-add-row input {
+  flex: 1;
+  min-width: 120px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .875rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.link-add-row input:focus { border-color: var(--primary); }
+
+.link-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 24px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: .875rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  animation: slideIn .2s ease;
+  transition: background var(--transition), transform var(--transition);
+}
+.link-chip:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
+
+.link-chip a {
+  color: inherit;
+  text-decoration: none;
+}
+.link-chip img.favicon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.link-chip-actions { display: flex; gap: 2px; margin-left: 4px; }
+.chip-btn {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  font-size: .75rem;
+  border-radius: 4px;
+  color: inherit;
+  opacity: .7;
+  transition: opacity var(--transition), background var(--transition);
+}
+.chip-btn:hover { opacity: 1; background: rgba(255,255,255,.25); }
+
+/* ── 11. Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+  animation: fadeIn .15s ease;
+}
+.modal-overlay.hidden { display: none; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  min-width: 320px;
+  max-width: 90vw;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: popIn .2s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(.9); opacity: 0; }
+  to   { transform: scale(1);  opacity: 1; }
+}
+
+.modal h3 { font-size: 1.1rem; font-weight: 700; }
+
+.modal input {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .9rem;
+  outline: none;
+  width: 100%;
+  transition: border-color var(--transition);
+}
+.modal input:focus { border-color: var(--primary); }
+
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ── 12. Empty States ── */
+.empty-state {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: .875rem;
+}
+
+/* ── 13. Toast ── */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text);
+  color: var(--surface);
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: .875rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  pointer-events: none;
+  transition: transform .3s ease, opacity .3s ease;
+  opacity: 0;
+}
+#toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ── 14. Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ── 15. Responsive ── */
+@media (max-width: 600px) {
+  .dashboard { padding: 12px; gap: 12px; }
+  .card { padding: 16px; }
+  .greeting-name { font-size: 1.5rem; }
+  .clock { font-size: 1.8rem; }
+  .timer-controls { flex-wrap: wrap; justify-content: center; }
+  .link-add-row { flex-direction: column; }
+}
+
+/* ── 16. Transition for theme switch ── */
+body, .card, .topbar, .modal, .task-item, .link-chip, input, select, button {
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition), box-shadow var(--transition);
+}
